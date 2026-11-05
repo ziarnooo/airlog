@@ -28,10 +28,10 @@ npm run preview    # serves dist/ under /airlog/
 - `src/components/Phone.astro` – layered SVG phone with the activity feed
 - `.github/workflows/deploy.yml` – GitHub Pages (withastro/action + actions/deploy-pages)
 
-## TODO before publishing
+## Publishing notes
 
-- **Confirm the beta contact address.** `mailto:hello@airlog.app?subject=AIRLOG%20beta` is a placeholder used in
-  `Header.astro`, `Hero.astro`, `Watches.astro`, `Footer.astro`. It must be replaced with a real, monitored address.
+- Live at https://ziarnooo.github.io/airlog/ (GitHub Pages, workflow deploy on push to `main`). Custom domain later: add `public/CNAME`, change `site`/`base` in `astro.config.mjs`.
+- No contact address on the site. CTAs point to `#watches` (“Coming to Connect IQ”); replace them with the Connect IQ Store link once AIRLOG Lab is published.
 - All numbers on the page (one demo session: highest jump 4.4 m, AIR 2.9 s, distance 21 m, 12 jumps, average speed while moving 27 km/h) are **demo data** and are labelled as such.
   No accuracy numbers, user counts, ratings or partner logos are claimed (height accuracy is still being validated).
 - `public/og.jpg` (<200 KB) is a screenshot of the hero; regenerate it if the hero changes.
