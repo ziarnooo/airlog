@@ -517,7 +517,7 @@ h3 {
   width: fit-content;
 }
 .lede {
-  max-width: 480px;
+  max-width: 440px;
   text-shadow: 0 0 14px #03050a, 0 0 28px #03050a;
   font-size: clamp(16px, 1.45vw, 19px);
   color: #aeb8cb;
@@ -532,9 +532,9 @@ h3 {
 }
 .hero-watch-wrap {
   position: absolute;
-  right: clamp(8px, 3vw, 80px);
-  bottom: -25svh;
-  height: min(100svh, 980px);
+  right: clamp(8px, 1.5vw, 40px);
+  bottom: -22svh;
+  height: min(88svh, 800px);
   aspect-ratio: 400 / 640;
   pointer-events: none;
   transform-origin: 50% 65%;
@@ -775,7 +775,8 @@ h3 {
   }
     .hero-watch-wrap {
     right: -15vw;
-    bottom: -13svh;
+    bottom: -16svh;
+    transform: translateY(calc(var(--s, 0) * -2svh)) scale(calc(1 + var(--s, 0) * 0.03));
     height: min(56svh, 520px);
   }
   .hero-sun {
@@ -1222,4 +1223,10 @@ h3 {
 
 .hero .js-takeoff {
   display: none;
+}
+
+@media (min-width: 900px) and (max-height: 780px) {
+  .scroll-hint {
+    display: none;
+  }
 }

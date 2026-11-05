@@ -32,7 +32,7 @@ npm run preview    # serves dist/ under /airlog/
 
 - **Confirm the beta contact address.** `mailto:hello@airlog.app?subject=AIRLOG%20beta` is a placeholder used in
   `Header.astro`, `Hero.astro`, `Watches.astro`, `Footer.astro`. It must be replaced with a real, monitored address.
-- All numbers on the page (5.9 m, 2.2 s, 21 m, session stats, profile) are **demo data** and are labelled as such.
+- All numbers on the page (one demo session: highest jump 4.4 m, AIR 2.9 s, distance 21 m, 12 jumps, average speed while moving 27 km/h) are **demo data** and are labelled as such.
   No accuracy numbers, user counts, ratings or partner logos are claimed (height accuracy is still being validated).
-- `public/og.png` is a screenshot of the hero; regenerate it if the hero changes.
-- Strava is shown as “coming soon” (not a working button) and uses no Strava logo.
+- `public/og.jpg` (<200 KB) is a screenshot of the hero; regenerate it if the hero changes.
+- Watch → AIRLOG sync and the Strava connection are not built yet; the site says so (FAQ, Strava section). Strava is shown as “coming soon” (not a working button) and uses no Strava logo.

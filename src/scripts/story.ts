@@ -16,9 +16,9 @@ const BEATS: Beat[] = [
   { at: 13.2, scene: 'saved' },
 ];
 const JUMPS = [
-  { at: 8, v: 3.1 },
-  { at: 10.3, v: 4.4 },
-  { at: 12.2, v: 5.9 },
+  { at: 8, v: 2.6 },
+  { at: 10.3, v: 3.7 },
+  { at: 12.2, v: 4.4 },
 ];
 
 const mmss = (sec: number) => {
@@ -50,8 +50,8 @@ for (const svg of document.querySelectorAll<SVGSVGElement>('svg.watch[data-scene
 
   if (reduced) {
     show('rec');
-    set(fields.last, '5.9');
-    set(fields.highest, '5.9');
+    set(fields.last, '4.4');
+    set(fields.highest, '4.4');
     continue;
   }
 
@@ -80,7 +80,7 @@ for (const svg of document.querySelectorAll<SVGSVGElement>('svg.watch[data-scene
       const u = (t - 5.6) / (13.2 - 5.6);
       set(fields.time, mmss(12 * 60 + 41 + u * (42 * 60 + 18 - 12 * 60 - 41)));
       set(fields.dist, (3.12 + u * (12.84 - 3.12)).toFixed(2));
-      set(fields.speed, (24.6 + Math.sin(t * 1.7) * 6 + Math.sin(t * 0.6) * 3).toFixed(1));
+      set(fields.speed, (27 + Math.sin(t * 1.7) * 5 + Math.sin(t * 0.6) * 3).toFixed(1));
       let last = '--';
       let high = 0;
       for (const j of JUMPS) {

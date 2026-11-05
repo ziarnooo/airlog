@@ -655,6 +655,7 @@
 }
 .phone-stage {
   position: relative;
+  padding-top: 40px;
   display: grid;
   place-items: center;
   min-height: 640px;
@@ -881,8 +882,8 @@
 }
 .phone-callout {
   position: absolute;
-  right: 0;
-  bottom: 26%;
+  left: calc(50% + 150px);
+  bottom: 40%;
   display: none;
   align-items: center;
   gap: 10px;
@@ -914,14 +915,9 @@
   background: var(--blue-hi);
   box-shadow: 0 0 12px var(--blue-hi);
 }
-@media (min-width: 720px) {
+@media (min-width: 1400px) {
   .phone-callout {
     display: flex;
-  }
-}
-@media (min-width: 960px) {
-  .phone-callout {
-    right: -10px;
   }
 }
 
@@ -1533,4 +1529,12 @@
 }
 .footer-legal p:last-child {
   max-width: 860px;
+}
+
+.phone-chip {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  translate: -50% 0;
+  z-index: 2;
 }

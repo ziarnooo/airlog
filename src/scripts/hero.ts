@@ -25,7 +25,7 @@ function init(hero: HTMLElement, svg: SVGSVGElement, watch: SVGSVGElement) {
   const lastEl = last?.closest('text');
   let lastShown = '';
   let landedPrev = false;
-  const PREV_LAST = '4.4';
+  const PREV_LAST = '3.7';
   if (speed) speed.textContent = (JUMP.vx * 3.6).toFixed(1);
 
   const setText = (el: SVGTSpanElement | null, s: string) => {
@@ -54,10 +54,22 @@ function init(hero: HTMLElement, svg: SVGSVGElement, watch: SVGSVGElement) {
     kite: true,
     annotate: true,
     onFrame,
-    fit: (w, h) =>
-      w >= 900
-        ? { x0: w * 0.27, x1: w * 0.68, y0: h * 0.2, y1: h * 0.8 }
-        : { x0: w * 0.03, x1: w * 0.62, y0: h * 0.5, y1: h * 0.75 },
+    fit: (w, h) => {
+      const wrap = hero.querySelector<HTMLElement>('.hero-watch-wrap');
+      // lewa krawędź obudowy zegarka (12.5 % szerokości SVG) / lewa krawędź paska (32.5 %)
+      const caseLeft = wrap ? wrap.offsetLeft + wrap.offsetWidth * 0.125 : w * 0.68;
+      const strapLeft = wrap ? wrap.offsetLeft + wrap.offsetWidth * 0.325 : w * 0.64;
+      if (w >= 900) {
+        // łuk zaczyna się na prawo od kolumny tekstu (nagłówek, lede, przyciski) i kończy przed obudową
+        let right = 0;
+        for (const el of hero.querySelectorAll<HTMLElement>('.hero-title .hl, .hero-copy .lede, .hero-copy .cta-row > *')) {
+          right = Math.max(right, el.getBoundingClientRect().right);
+        }
+        const x0 = right + 36;
+        return { x0, x1: Math.max(x0 + 300, caseLeft - 24), y0: h * 0.2, y1: h * 0.8 };
+      }
+      return { x0: w * 0.03, x1: Math.max(w * 0.4, strapLeft - 26), y0: h * 0.545, y1: h * 0.77 };
+    },
   });
 
   const scrollRange = () => Math.max(1, hero.offsetHeight - innerHeight);
@@ -78,7 +90,7 @@ function init(hero: HTMLElement, svg: SVGSVGElement, watch: SVGSVGElement) {
     const target = T / 2 + s * (T / 2);
     scene.set({
       t: Math.max(0.0001, e * target),
-      yaw: YAW0 + (1 - e) * -0.36 + s * (innerWidth < 900 ? 0.3 : SCROLL_YAW),
+      yaw: YAW0 + (1 - e) * -0.36 + s * (innerWidth < 900 ? 0.2 : SCROLL_YAW),
       ox,
       oy,
     });
@@ -171,7 +183,11 @@ function init(hero: HTMLElement, svg: SVGSVGElement, watch: SVGSVGElement) {
     }).observe(hero);
   }
 
-  const start = () => requestAnimationFrame(() => begin());
+  const start = () =>
+    requestAnimationFrame(() => {
+      scene.refit();
+      begin();
+    });
   if (document.fonts?.ready) document.fonts.ready.then(start);
   else start();
 }

@@ -6,13 +6,14 @@
  *  - kamera: yaw/pitch + perspektywa, siatka wody, ślad na wodzie, łuk (duch + podświetlony),
  *  - wektory prędkości wzdłuż łuku, linka miernicza (taśma) z wysokością, latawiec w 3D,
  *  - render tylko gdy „brudny” i aktywny (IntersectionObserver po stronie wywołującego).
- * Dane to demo: T = 2.2 s, vx = 9.4 m/s → apex ≈ 5.9 m, dystans ≈ 21 m.
+ * Dane to demo (jedna sesja): AIR 2.9 s, apex 4.4 m, dystans 21 m. Skok kitesurfingowy NIE jest balistyczny
+ * (latawiec nosi), więc profil to spłaszczona „czapa”: h(t) = H·(1 − |1 − 2t/T|^k), k = 2.4;
+ * przyspieszenie pionowe liczone analitycznie z tego profilu.
  */
 
-export const G = 9.81;
-export const JUMP = { T: 2.2, vx: 9.4, zAmp: 7 };
-export const APEX_H = (G * JUMP.T * JUMP.T) / 8;
-export const DIST = JUMP.vx * JUMP.T;
+export const APEX_H = 4.4;
+export const DIST = 21;
+export const JUMP = { T: 2.9, vx: DIST / 2.9, zAmp: 7, k: 2.4 };
 
 const NS = 'http://www.w3.org/2000/svg';
 const T0 = -1.9; // początek podejścia (s)
@@ -45,16 +46,24 @@ export interface SceneOptions {
   onFrame?: (f: Frame) => void;
 }
 
+const inAir = (t: number) => t >= 0 && t <= JUMP.T;
 const pos = (t: number): V3 => {
-  const { T, vx, zAmp } = JUMP;
-  const y = t >= 0 && t <= T ? (G * t * (T - t)) / 2 : 0;
+  const { T, vx, zAmp, k } = JUMP;
+  const y = inAir(t) ? APEX_H * (1 - Math.pow(Math.abs(1 - (2 * t) / T), k)) : 0;
   return [vx * t, y, -zAmp * Math.tanh((t - T / 2) * 0.3)];
 };
 const vel = (t: number): V3 => {
-  const { T, vx, zAmp } = JUMP;
-  const vy = t >= 0 && t <= T ? G * (T / 2 - t) : 0;
+  const { T, vx, zAmp, k } = JUMP;
+  const x = 1 - (2 * t) / T;
+  const vy = inAir(t) ? ((APEX_H * 2 * k) / T) * Math.pow(Math.abs(x), k - 1) * Math.sign(x) : 0;
   const c = Math.cosh((t - T / 2) * 0.3);
   return [vx, vy, (-zAmp * 0.3) / (c * c)];
+};
+/** przyspieszenie pionowe (m/s²) z profilu wysokości */
+const accY = (t: number): number => {
+  const { T, k } = JUMP;
+  if (!inAir(t)) return 0;
+  return -((APEX_H * 4 * k * (k - 1)) / (T * T)) * Math.pow(Math.abs(1 - (2 * t) / T), k - 2);
 };
 
 const f1 = (n: number) => (Math.round(n * 10) / 10).toString();
@@ -80,6 +89,8 @@ export interface SceneState {
 
 export interface JumpScene {
   resize(): void;
+  /** przelicza dopasowanie (np. po załadowaniu fontów zmieniających układ tekstu) */
+  refit(): void;
   render(): void;
   set(next: Partial<SceneState>): void;
   get(): SceneState;
@@ -88,7 +99,7 @@ export interface JumpScene {
 
 export function createJumpScene(opts: SceneOptions): JumpScene {
   const { svg } = opts;
-  const yExag = opts.yExag ?? 1.25;
+  const yExag = opts.yExag ?? 1.7;
   const D = 46; // odległość kamery (m) – im mniej, tym mocniejsza perspektywa
   const cx0 = (JUMP.vx * JUMP.T) / 2;
 
@@ -120,8 +131,8 @@ export function createJumpScene(opts: SceneOptions): JumpScene {
   const gGrid = mk('g', { class: 'js-grid', mask: `url(#${uid}-mask)` }, svg);
   const gridX = mk('path', { class: 'js-gridline' }, gGrid);
   const gridZ = mk('path', { class: 'js-gridline' }, gGrid);
-  const wake = mk('path', { class: 'js-wake', pathLength: 1 }, svg);
-  const wakeAir = mk('path', { class: 'js-wake-air' }, svg);
+  const wake = mk('path', { class: 'js-wake', pathLength: 1 }, gGrid);
+  const wakeAir = mk('path', { class: 'js-wake-air' }, gGrid);
   const gMarks = mk('g', { class: 'js-marks' }, svg);
   const takeoffRing = mk('ellipse', { class: 'js-ring' }, gMarks);
   const landRing = mk('ellipse', { class: 'js-ring' }, gMarks);
@@ -153,7 +164,7 @@ export function createJumpScene(opts: SceneOptions): JumpScene {
   const tapeBase = mk('path', { class: 'js-tape-base' }, gTape);
   const tapeFill = mk('path', { class: 'js-tape-fill' }, gTape);
   const tapeTicks = mk('path', { class: 'js-tape-ticks' }, gTape);
-  const tapeNums: SVGTextElement[] = [2, 4, 6].map(() => mk('text', { class: 'js-tape-num' }, gTape));
+  const tapeNums: SVGTextElement[] = [2, 4].map(() => mk('text', { class: 'js-tape-num' }, gTape));
   const peak = mk('path', { class: 'js-peak' }, gTape);
   const gauge = mk('path', { class: 'js-gauge' }, gTape);
 
@@ -273,7 +284,7 @@ export function createJumpScene(opts: SceneOptions): JumpScene {
   for (let i = 0; i <= 120; i++) wakePts.push(pos(T0 + ((T1 - T0) * i) / 120));
   const wakeAirPts: V3[] = airPts.map((p) => [p[0], 0, p[2]] as V3);
   const vecT = Array.from({ length: vecs.length }, (_, i) => 0.06 + (JUMP.T - 0.12) * (i / (vecs.length - 1)));
-  const tapeTop = 7.6;
+  const tapeTop = 5.4;
 
   const render = () => {
     raf = 0;
@@ -318,7 +329,7 @@ export function createJumpScene(opts: SceneOptions): JumpScene {
       const lit = t >= ti - 0.02;
       const pi = pos(ti);
       const vi = vel(ti);
-      vecs[i].setAttribute('d', arrow(pi, add(pi, vi, 0.2)));
+      vecs[i].setAttribute('d', arrow(pi, add(pi, vi, 0.3)));
       vecs[i].classList.toggle('is-lit', lit);
     }
 
@@ -328,17 +339,20 @@ export function createJumpScene(opts: SceneOptions): JumpScene {
     dot.setAttribute('cy', py.toFixed(1));
     halo.setAttribute('cx', px.toFixed(1));
     halo.setAttribute('cy', py.toFixed(1));
-    live.setAttribute('d', arrow(p, add(p, v, 0.34), 9));
+    live.setAttribute('d', arrow(p, add(p, v, 0.45), 9));
     // deska: odcinek 1.3 m wzdłuż wektora prędkości
     const vn = Math.hypot(v[0], v[1], v[2]) || 1;
     const bdir: V3 = [(v[0] / vn) * 0.7, (v[1] / vn) * 0.7, (v[2] / vn) * 0.7];
     board.setAttribute('d', path([add(p, bdir, -1), add(p, bdir, 1)]));
     if (accel) {
-      const [ax, ay] = P(add(p, [0, -G * 0.3, 0]));
-      accel.setAttribute('d', arrow(p, add(p, [0, -G * 0.3, 0]), 8));
-      setLabel('acc', 'a −9.81 m/s²', ax + 10, ay + 4);
-      accel.style.opacity = t > 0 && t < T ? '1' : '0';
-      labels.acc.style.opacity = t > 0 && t < T ? '1' : '0';
+      const a = accY(t);
+      const tip = add(p, [0, a * 0.4, 0]);
+      const [ax, ay] = P(tip);
+      accel.setAttribute('d', arrow(p, tip, 8));
+      setLabel('acc', `a ${a.toFixed(1).replace('-', '−')} m/s²`, ax + 10, ay + 4);
+      const showA = t > 0 && t < T && Math.abs(a) > 0.5 ? '1' : '0';
+      accel.style.opacity = showA;
+      labels.acc.style.opacity = showA;
     }
 
     /* taśma mierznicza (przy apexie) */
@@ -348,7 +362,7 @@ export function createJumpScene(opts: SceneOptions): JumpScene {
     const hh = Math.min(h, tapeTop);
     tapeFill.setAttribute('d', path([foot, [cx0, hh, 0]]));
     let ticks = '';
-    for (let m = 0; m <= 7; m++) {
+    for (let m = 0; m <= 5; m++) {
       const a = P([cx0, m, 0]);
       const len = m % 2 === 0 ? 9 : 5;
       ticks += `M${a[0].toFixed(1)} ${a[1].toFixed(1)}h${-len}`;
@@ -373,8 +387,8 @@ export function createJumpScene(opts: SceneOptions): JumpScene {
     setLabel('h', `${atApex ? 'APEX ' : ''}${f1(h)} m`, gp[0] + 14, gp[1] + (atApex ? -2 : 0));
     labels.h.classList.toggle('is-apex', atApex);
     const air = Math.min(Math.max(t, 0), T);
-    if (W < 600) setLabel('read', `AIR ${air.toFixed(1)} s`, px - 14, py - 26, 'end');
-    else setLabel('read', `AIR ${air.toFixed(1)} s · ${f1(vn)} m/s`, px + 16, py - 24);
+    if (W < 600) setLabel('read', `AIR ${air.toFixed(1)} / ${T.toFixed(1)} s`, px - 14, py - 26, 'end');
+    else setLabel('read', `AIR ${air.toFixed(1)} / ${T.toFixed(1)} s · ${f1(vn)} m/s`, px + 16, py - 24);
     labels.read.style.opacity = '1';
 
     if (opts.annotate) {
@@ -436,6 +450,9 @@ export function createJumpScene(opts: SceneOptions): JumpScene {
     svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
     mrect.setAttribute('width', String(W));
     mrect.setAttribute('height', String(H));
+    layout();
+  };
+  const layout = () => {
     const rect = opts.fit(W, H);
     mrect.setAttribute('x', String(rect.x0 - (rect.x1 - rect.x0) * 0.35));
     mrect.setAttribute('width', String((rect.x1 - rect.x0) * 1.7));
@@ -449,6 +466,7 @@ export function createJumpScene(opts: SceneOptions): JumpScene {
 
   return {
     resize,
+    refit: layout,
     render: () => {
       resize();
       render();
