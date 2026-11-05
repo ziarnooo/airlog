@@ -1,0 +1,133 @@
+---
+import Logo from './Logo.astro';
+const jumpDots = [
+  [214, 214, 0.5], [236, 190, 0.7], [262, 226, 0.4], [281, 180, 1], [300, 206, 0.6], [318, 238, 0.35],
+  [226, 246, 0.3], [250, 160, 0.8], [330, 196, 0.55], [292, 150, 0.9], [206, 178, 0.45], [344, 224, 0.5],
+  [272, 262, 0.28], [310, 172, 0.65],
+];
+const pins = [
+  { name: 'Preá', x: 13.5, y: 60, minor: true },
+  { name: 'Jericoacoara', x: 34.5, y: 62, main: true },
+  { name: 'Icaraizinho', x: 65, y: 55.5, minor: true },
+  { name: 'Cumbuco', x: 89, y: 60, minor: true },
+];
+---
+
+<section class="section" id="spots" aria-labelledby="spots-title">
+  <div class="wrap">
+    <header class="section-head" data-reveal>
+      <p class="eyebrow"><span class="pulse"></span>Spots &amp; profile</p>
+      <h2 id="spots-title">Every spot you’ve <span class="grad">ridden.</span></h2>
+      <p class="sub">Your sessions build a map of spots and a public rider profile you can send to anyone.</p>
+    </header>
+
+    <div class="bento spots-grid" data-stagger="1">
+      <article class="card map-card" data-reveal data-spot data-run>
+        <div class="map-box">
+          <svg class="map-svg" viewBox="0 0 720 460" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+            <defs>
+              <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#06122b"></stop>
+                <stop offset="1" stop-color="#0e2f6b"></stop>
+              </linearGradient>
+              <linearGradient id="land" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#1b2433"></stop>
+                <stop offset="1" stop-color="#0d1118"></stop>
+              </linearGradient>
+              <pattern id="landDots" width="9" height="9" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1" fill="#fff" fill-opacity=".07"></circle></pattern>
+              <radialGradient id="heat"><stop offset="0" stop-color="#6d8dff" stop-opacity=".55"></stop><stop offset="1" stop-color="#6d8dff" stop-opacity="0"></stop></radialGradient>
+              <filter id="trackBlur"><feGaussianBlur stdDeviation="5"></feGaussianBlur></filter>
+            </defs>
+            <rect width="720" height="460" fill="url(#sea)"></rect>
+            <g stroke="#fff" stroke-opacity=".045">
+              {[60, 120, 180, 240, 300, 360, 420, 480, 540, 600, 660].map((x) => <path d={`M${x} 0V460`}></path>)}
+              {[60, 120, 180, 240, 300, 360].map((y) => <path d={`M0 ${y}H720`}></path>)}
+            </g>
+            <g class="map-waves" fill="none" stroke="#7aa2ff" stroke-opacity=".22" stroke-width="1.2" stroke-linecap="round">
+              <path d="M30 120q20-9 40 0t40 0t40 0" stroke-dasharray="6 10"></path>
+              <path d="M420 100q20-9 40 0t40 0t40 0" stroke-dasharray="6 10"></path>
+              <path d="M520 190q20-9 40 0t40 0t40 0" stroke-dasharray="6 10"></path>
+              <path d="M90 230q20-9 40 0t40 0" stroke-dasharray="6 10"></path>
+              <path d="M360 60q20-9 40 0t40 0" stroke-dasharray="6 10"></path>
+            </g>
+            <circle cx="282" cy="204" r="130" fill="url(#heat)"></circle>
+            <g class="map-track" filter="url(#trackBlur)" fill="none" stroke="#9db6ff" stroke-opacity=".55" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M190 262C230 150 270 270 300 170S360 250 372 190"></path>
+            </g>
+            <path class="map-track-dash" d="M190 262C230 150 270 270 300 170S360 250 372 190" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="1.2" stroke-dasharray="3 6"></path>
+            <path d="M0 300C60 292 110 270 170 276C230 282 270 316 340 306C410 296 450 250 520 252C590 254 640 290 720 270V460H0Z" fill="url(#land)"></path>
+            <path d="M0 300C60 292 110 270 170 276C230 282 270 316 340 306C410 296 450 250 520 252C590 254 640 290 720 270V460H0Z" fill="url(#landDots)"></path>
+            <path d="M0 300C60 292 110 270 170 276C230 282 270 316 340 306C410 296 450 250 520 252C590 254 640 290 720 270" fill="none" stroke="#7aa2ff" stroke-opacity=".5" stroke-width="1.5"></path>
+            <path d="M0 300C60 292 110 270 170 276C230 282 270 316 340 306C410 296 450 250 520 252C590 254 640 290 720 270" fill="none" stroke="#2b3b5c" stroke-opacity=".7" stroke-width="9" transform="translate(0 7)"></path>
+            <g fill="none" stroke="#7aa2ff" stroke-opacity=".1" stroke-width="1">
+              <path d="M0 300C60 292 110 270 170 276C230 282 270 316 340 306C410 296 450 250 520 252C590 254 640 290 720 270" transform="translate(0 38)"></path>
+              <path d="M0 300C60 292 110 270 170 276C230 282 270 316 340 306C410 296 450 250 520 252C590 254 640 290 720 270" transform="translate(0 74)"></path>
+              <path d="M0 300C60 292 110 270 170 276C230 282 270 316 340 306C410 296 450 250 520 252C590 254 640 290 720 270" transform="translate(0 118)"></path>
+            </g>
+            <g fill="none" stroke="#fff" stroke-opacity=".07" stroke-width="1.2">
+              <path d="M0 380C120 360 200 400 320 380S520 340 720 370"></path>
+              <path d="M140 460C170 400 240 360 300 330"></path>
+              <path d="M470 460C500 410 560 380 640 340"></path>
+            </g>
+            <g class="map-jumps">
+              {
+                jumpDots.map(([x, y, v], i) => (
+                  <circle cx={x} cy={y} r={2.5 + v * 3} fill="#bcd0ff" fill-opacity={0.3 + v * 0.6} style={`--i:${i}`}></circle>
+                ))
+              }
+            </g>
+          </svg>
+          {
+            pins.map((p, i) => (
+              <span class={`pin${p.main ? ' is-main' : ''}${p.minor ? ' is-minor' : ''}`} style={`left:${p.x}%;top:${p.y}%;--i:${i}`}>
+                <i class="pin-dot"></i>
+                <b>{p.name}</b>
+              </span>
+            ))
+          }
+          <span class="map-lock"><svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M4.5 7V5.2a3.5 3.5 0 017 0V7M3.5 7h9v6.5h-9z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path></svg>Exact track stays private</span>
+          <div class="map-top">
+            <span class="chip chip-demo">Demo data</span>
+            <span class="chip">4 spots ridden</span>
+          </div>
+        </div>
+        <div class="card-body map-foot">
+          <div>
+            <h3>A map of where you fly</h3>
+            <p>Spots are public by default. Your exact tracks are not.</p>
+          </div>
+          <ul class="map-key" aria-label="Map key">
+            <li><i class="k-pin"></i>Public spot</li>
+            <li><i class="k-jump"></i>Jump</li>
+            <li><i class="k-track"></i>Private track</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="card profile-card" data-reveal data-spot>
+        <div class="pf-cover" aria-hidden="true"><i></i></div>
+        <div class="pf-head">
+          <div class="avatar avatar-lg" aria-hidden="true"><Logo size={26} word={false} /></div>
+          <div>
+            <h3>Demo Rider</h3>
+            <p>Public rider profile · <span class="chip chip-demo">Demo</span></p>
+          </div>
+        </div>
+        <dl class="pf-stats">
+          <div><dt>Best jump</dt><dd>5.9<small>m</small></dd></div>
+          <div><dt>Jumps</dt><dd>143</dd></div>
+          <div><dt>Sessions</dt><dd>12</dd></div>
+        </dl>
+        <div class="pf-spark" aria-hidden="true">
+          <p>Highest jump per session</p>
+          <svg viewBox="0 0 260 70" preserveAspectRatio="none" width="100%" height="70">
+            <defs><linearGradient id="spark" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5b83ff" stop-opacity=".45"></stop><stop offset="1" stop-color="#5b83ff" stop-opacity="0"></stop></linearGradient></defs>
+            <path d="M0 58L22 50L44 54L66 42L88 46L110 34L132 38L154 26L176 30L198 18L220 22L260 8V70H0Z" fill="url(#spark)"></path>
+            <path class="pf-line" d="M0 58L22 50L44 54L66 42L88 46L110 34L132 38L154 26L176 30L198 18L220 22L260 8" fill="none" stroke="#7aa2ff" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" pathLength="1"></path>
+          </svg>
+        </div>
+        <p class="pf-link">airlog profile link · shareable</p>
+      </article>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,33 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+const base = import.meta.env.BASE_URL;
+---
+
+<Base title="Page not found — AIRLOG">
+  <Header />
+  <main id="main" class="nf">
+    <p class="eyebrow">404</p>
+    <h1>Lost in the <span class="grad">air.</span></h1>
+    <p class="sub">That page didn’t land. Head back to the start.</p>
+    <a class="btn btn-primary" href={base}>Back to AIRLOG</a>
+  </main>
+</Base>
+
+<style>
+  .nf {
+    min-height: 100svh;
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    gap: 20px;
+    padding: 120px 20px;
+    text-align: center;
+  }
+  h1 {
+    font-size: clamp(48px, 9vw, 112px);
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+</style>

@@ -1,0 +1,14 @@
+---
+interface Props {
+  size?: number;
+  word?: boolean;
+}
+const { size = 26, word = true } = Astro.props;
+---
+
+<span class="logo">
+  <svg class="logo-mark" viewBox="0 0 100 100" width={size} height={size} aria-hidden="true" focusable="false">
+    <path fill="currentColor" fill-rule="evenodd" d="M50 6.699 L100 93.301 H0 Z M50 32.679 L30 67.32 H42 V80.301 H58 V67.32 H70 Z"></path>
+  </svg>
+  {word && <span class="logo-word">AIRLOG<sup>®</sup></span>}
+</span>

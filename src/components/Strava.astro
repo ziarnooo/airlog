@@ -1,0 +1,35 @@
+---
+import Phone from './Phone.astro';
+---
+
+<section class="section" id="strava" aria-labelledby="strava-title">
+  <div class="wrap strava-grid">
+    <div class="strava-copy" data-stagger="1">
+      <header class="section-head left" data-reveal>
+        <p class="eyebrow"><span class="pulse"></span>Strava</p>
+        <h2 id="strava-title">Your best jump, <span class="grad">in your feed.</span></h2>
+        <p class="sub">Connect once. AIRLOG adds a short block to every activity description, so your jumps travel with your session.</p>
+      </header>
+      <ul class="bullets" data-stagger="1">
+        <li data-reveal><b>Highest jump</b><span>The peak of the session, in metres.</span></li>
+        <li data-reveal><b>Jump count</b><span>How many jumps AIRLOG found.</span></li>
+        <li data-reveal><b>Average speed</b><span>Calculated while moving, not while waiting.</span></li>
+        <li data-reveal><b>Link</b><span>Straight to your AIRLOG session and rider profile.</span></li>
+      </ul>
+      <div class="cta-row" data-reveal>
+        <span class="btn btn-ghost is-soon">Connect Strava <em>Coming soon</em></span>
+      </div>
+    </div>
+
+    <div class="phone-stage" data-reveal data-tilt-host data-run>
+      <div class="phone-glow" aria-hidden="true"></div>
+      <div class="phone-wrap" data-tilt data-glint>
+        <Phone uid="ph" />
+      </div>
+      <div class="phone-callout" aria-hidden="true">
+        <i class="pc-dot"></i>
+        <span>AIRLOG block, added automatically</span>
+      </div>
+    </div>
+  </div>
+</section>

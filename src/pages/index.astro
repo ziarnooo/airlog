@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Marquee from '../components/Marquee.astro';
+import HowItWorks from '../components/HowItWorks.astro';
+import Replay from '../components/Replay.astro';
+import Strava from '../components/Strava.astro';
+import Spots from '../components/Spots.astro';
+import Watches from '../components/Watches.astro';
+import Privacy from '../components/Privacy.astro';
+import Faq from '../components/Faq.astro';
+import Footer from '../components/Footer.astro';
+
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'AIRLOG',
+  applicationCategory: 'SportsApplication',
+  operatingSystem: 'Garmin Connect IQ',
+  description:
+    'Kitesurf jump tracker for Garmin watches: height, airtime and distance for every jump. Early beta.',
+  url: 'https://ziarnooo.github.io/airlog/',
+};
+---
+
+<Base>
+  <Header />
+  <main id="main">
+    <Hero />
+    <Marquee />
+    <HowItWorks />
+    <Replay />
+    <Strava />
+    <Spots />
+    <Watches />
+    <Privacy />
+    <Faq />
+  </main>
+  <Footer />
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+</Base>

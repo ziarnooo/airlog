@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ziarnooo.github.io/airlog/sitemap-index.xml

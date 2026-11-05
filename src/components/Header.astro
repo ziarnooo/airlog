@@ -1,0 +1,18 @@
+---
+import Logo from './Logo.astro';
+const base = import.meta.env.BASE_URL;
+---
+
+<header class="site-header" data-site-header>
+  <div class="wrap header-inner">
+    <a class="brand" href={base} aria-label="AIRLOG home"><Logo /></a>
+    <nav class="nav" aria-label="Main">
+      <a href="#how">How it works</a>
+      <a href="#replay">3D replay</a>
+      <a href="#strava">Strava</a>
+      <a href="#watches">Watches</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="btn btn-primary btn-sm" href="mailto:hello@airlog.app?subject=AIRLOG%20beta" data-magnetic>Join the beta</a>
+  </div>
+</header>

@@ -1,0 +1,20 @@
+---
+const items = ['GPS', 'Raw motion', 'Jump height', 'Airtime', 'Distance', '3D replay', 'Rider profile', 'Strava block', 'Private tracks'];
+---
+
+<div class="marquee" data-run aria-label="What AIRLOG records and shows">
+  <div class="marquee-track">
+    {
+      [0, 1].map((k) => (
+        <ul aria-hidden={k === 1 ? 'true' : undefined}>
+          {items.map((t) => (
+            <li>
+              <i></i>
+              {t}
+            </li>
+          ))}
+        </ul>
+      ))
+    }
+  </div>
+</div>

@@ -1,0 +1,60 @@
+---
+import Watch from './Watch.astro';
+---
+
+<section class="hero" id="top" data-hero aria-labelledby="hero-title">
+  <div class="hero-sticky" data-tilt-host>
+    <div class="hero-sky" aria-hidden="true"><i class="hero-sun"></i><i class="hero-grain"></i></div>
+    <svg class="hero-scene" aria-hidden="true" focusable="false"></svg>
+
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow rise" style="--i:0"><span class="pulse" aria-hidden="true"></span>Early beta · Garmin Forerunner 265</p>
+        <h1 id="hero-title" class="hero-title">
+          <span class="hl" style="--i:1">Know how</span>
+          <span class="hl" style="--i:2">high you</span>
+          <span class="hl hl-grad" style="--i:3">flew.</span>
+        </h1>
+        <p class="lede rise" style="--i:4">
+          <span class="lede-long">AIRLOG turns your Garmin into a kitesurf jump tracker. Height, airtime and distance for every jump, from raw GPS and motion data.</span>
+          <span class="lede-short">Height, airtime and distance for every kitesurf jump, on your Garmin.</span>
+          <strong>Built to be measured, not guessed.</strong>
+        </p>
+        <div class="cta-row rise" style="--i:5">
+          <a class="btn btn-primary" href="mailto:hello@airlog.app?subject=AIRLOG%20beta" data-magnetic>
+            Join the beta
+            <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M3 8h9M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </a>
+          <span class="btn btn-ghost is-soon">Connect Strava <em>Soon</em></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-watch-wrap" aria-hidden="false">
+      <div class="hero-watch" data-tilt data-glint>
+        <Watch uid="hw" scene="jump" label="Garmin Forerunner 265 running AIRLOG and showing a demo highest jump of 5.9 metres" />
+      </div>
+    </div>
+
+    <div class="hero-result" aria-hidden="true">
+      <p class="eyebrow"><span class="pulse"></span>Demo jump · result</p>
+      <dl>
+        <div><dt>Height</dt><dd>5.9<small>m</small></dd></div>
+        <div><dt>Airtime</dt><dd>2.2<small>s</small></dd></div>
+        <div><dt>Distance</dt><dd>21<small>m</small></dd></div>
+      </dl>
+    </div>
+
+    <ul class="hero-legend" aria-label="Chart legend">
+      <li><i class="lg lg-vec"></i>Velocity vector</li>
+      <li><i class="lg lg-tape"></i>Height tape</li>
+      <li><i class="lg lg-wake"></i>Ground track</li>
+      <li class="lg-demo"><i class="lg lg-demo-dot"></i>Demo data</li>
+    </ul>
+    <div class="scroll-hint" aria-hidden="true"><span></span>Scroll to scrub the jump</div>
+  </div>
+</section>
+
+<script>
+  import '../scripts/hero.ts';
+</script>

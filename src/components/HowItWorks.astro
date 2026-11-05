@@ -1,0 +1,92 @@
+---
+import Watch from './Watch.astro';
+import Logo from './Logo.astro';
+const jumps = [
+  { n: 14, h: 5.9, t: 2.2, d: 21, best: true },
+  { n: 9, h: 4.4, t: 1.9, d: 18 },
+  { n: 12, h: 3.8, t: 1.8, d: 17 },
+  { n: 6, h: 3.1, t: 1.6, d: 15 },
+  { n: 3, h: 2.6, t: 1.5, d: 14 },
+];
+---
+
+<section class="section" id="how" aria-labelledby="how-title">
+  <div class="wrap">
+    <header class="section-head" data-reveal>
+      <p class="eyebrow"><span class="pulse"></span>How it works</p>
+      <h2 id="how-title">Record. Detect. <span class="grad">Share.</span></h2>
+      <p class="sub">Start the app on your wrist and ride. Everything else happens after the session.</p>
+    </header>
+
+    <div class="bento how-grid" data-stagger="1">
+      <article class="card how-card" data-reveal data-spot>
+        <div class="card-visual visual-watch" data-run>
+          <div class="mini-watch"><Watch uid="hs" scene="story" label="Garmin watch cycling through the AIRLOG screens: start, GPS search, recording and session saved" /></div>
+        </div>
+        <div class="card-body">
+          <p class="step">01</p>
+          <h3>Record on your wrist</h3>
+          <p>AIRLOG logs GPS and raw motion sensor data on the watch while you ride. One tap to start, one to stop.</p>
+        </div>
+      </article>
+
+      <article class="card how-card" data-reveal data-spot>
+        <div class="card-visual visual-list">
+          <div class="jumplist" role="table" aria-label="Demo jumps detected in a session">
+            <div class="jl-head" role="row">
+              <span role="columnheader">Demo · Jericoacoara</span>
+              <span role="columnheader" class="jl-cols"><i>Height</i><i>Air</i><i>Dist</i></span>
+            </div>
+            {
+              jumps.map((j, i) => (
+                <div class={`jl-row${j.best ? ' is-best' : ''}`} role="row" style={`--i:${i};--w:${(j.h / 5.9) * 100}%`}>
+                  <span class="jl-n" role="cell">#{j.n}</span>
+                  <span class="jl-bar" role="cell" aria-hidden="true"><b></b></span>
+                  <span class="jl-v" role="cell">{j.h.toFixed(1)}<small>m</small></span>
+                  <span class="jl-v dim" role="cell">{j.t.toFixed(1)}<small>s</small></span>
+                  <span class="jl-v dim" role="cell">{j.d}<small>m</small></span>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="step">02</p>
+          <h3>Jumps, detected</h3>
+          <p>After the session AIRLOG finds every jump in the raw data: height, airtime and distance for each one.</p>
+        </div>
+      </article>
+
+      <article class="card how-card" data-reveal data-spot>
+        <div class="card-visual visual-share">
+          <div class="share-profile">
+            <div class="avatar" aria-hidden="true"><Logo size={16} word={false} /></div>
+            <div>
+              <b>Demo Rider</b>
+              <span>Public rider profile</span>
+            </div>
+            <span class="chip chip-demo">Demo</span>
+          </div>
+          <div class="share-stats">
+            <div><b>5.9<small>m</small></b><span>Best jump</span></div>
+            <div><b>14</b><span>Jumps today</span></div>
+            <div><b>4</b><span>Spots</span></div>
+          </div>
+          <div class="share-strava">
+            <p class="ss-title">Strava description</p>
+            <p><b>AIRLOG</b> · Highest jump 5.9 m · 14 jumps · Avg speed 24 km/h</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="step">03</p>
+          <h3>Share the flight</h3>
+          <p>Get a public rider profile, and soon a short AIRLOG block on every Strava activity.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<script>
+  import '../scripts/story.ts';
+</script>

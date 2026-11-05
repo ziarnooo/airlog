@@ -1,0 +1,53 @@
+---
+---
+
+<section class="section" id="replay" aria-labelledby="replay-title">
+  <div class="wrap">
+    <header class="section-head" data-reveal>
+      <p class="eyebrow"><span class="pulse"></span>3D jump replay</p>
+      <h2 id="replay-title">Every jump, <span class="grad">in 3D.</span></h2>
+      <p class="sub">Scrub the flight frame by frame. See the velocity and acceleration vectors behind the numbers.</p>
+    </header>
+
+    <div class="card replay-card" data-reveal data-spot>
+      <div class="replay-stage" data-replay>
+        <svg class="replay-scene" role="img" aria-label="Interactive 3D replay of a demo jump with velocity and acceleration vectors. Drag to rotate the view."></svg>
+        <div class="replay-top">
+          <span class="chip chip-demo">Demo jump</span>
+          <ul class="replay-legend" aria-label="Legend">
+            <li><i class="lg lg-vec"></i>Velocity</li>
+            <li><i class="lg lg-acc"></i>Acceleration</li>
+          </ul>
+        </div>
+        <p class="replay-drag" aria-hidden="true">Drag to rotate</p>
+        <div class="replay-controls">
+          <button type="button" class="rc-play" data-play aria-label="Pause replay" aria-pressed="true">
+            <svg class="i-pause" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M4.5 3v10M11.5 3v10" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"></path></svg>
+            <svg class="i-play" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M5 3l8 5-8 5z" fill="currentColor"></path></svg>
+          </button>
+          <label class="rc-range"><span class="sr-only">Scrub jump replay</span><input type="range" min="0" max="1000" value="500" step="1" data-range /></label>
+          <button type="button" class="rc-reset" data-reset>Reset view</button>
+        </div>
+      </div>
+
+      <aside class="replay-side">
+        <dl class="readouts" aria-live="off">
+          <div><dt>Height</dt><dd><b data-r="h">0.0</b><small>m</small></dd></div>
+          <div><dt>Speed</dt><dd><b data-r="v">0.0</b><small>m/s</small></dd></div>
+          <div><dt>Vertical speed</dt><dd><b data-r="vy">0.0</b><small>m/s</small></dd></div>
+          <div><dt>Airtime</dt><dd><b data-r="air">0.0</b><small>s</small></dd></div>
+        </dl>
+        <ul class="ticks">
+          <li><b>Velocity vectors</b><span>Direction and speed along the whole arc.</span></li>
+          <li><b>Acceleration</b><span>The pull of gravity during the flight.</span></li>
+          <li><b>Height tape</b><span>Peak height, read straight off the tape.</span></li>
+        </ul>
+        <p class="fine">Demo data. Geometry is a simplified ballistic flight.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<script>
+  import '../scripts/replay.ts';
+</script>

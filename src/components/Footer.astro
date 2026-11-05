@@ -1,0 +1,44 @@
+---
+import Logo from './Logo.astro';
+---
+
+<section class="cta-final" aria-labelledby="cta-title">
+  <div class="wrap">
+    <div class="cta-card" data-reveal data-spot>
+      <p class="eyebrow"><span class="pulse"></span>Early beta</p>
+      <h2 id="cta-title">Get in the air.<br /><span class="grad">We’ll log it.</span></h2>
+      <p class="sub">Join the beta and be among the first to see your jumps measured, not guessed.</p>
+      <div class="cta-row center">
+        <a class="btn btn-primary btn-lg" href="mailto:hello@airlog.app?subject=AIRLOG%20beta" data-magnetic>Join the beta</a>
+        <span class="btn btn-ghost is-soon">Connect Strava <em>Soon</em></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer" data-site-footer>
+  <div class="wrap footer-top">
+    <div class="footer-brand">
+      <Logo size={22} />
+      <p>A kitesurf jump tracker for Garmin watches.</p>
+    </div>
+    <nav class="footer-nav" aria-label="Footer">
+      <a href="#how">How it works</a>
+      <a href="#replay">3D replay</a>
+      <a href="#strava">Strava</a>
+      <a href="#watches">Watches</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://ziarnooo.github.io/airlog-privacy/" target="_blank" rel="noopener">Privacy policy ↗</a>
+      <a href="mailto:hello@airlog.app?subject=AIRLOG%20beta">Contact</a>
+    </nav>
+  </div>
+  <div class="footer-dots" data-footer-dots aria-hidden="true"><canvas class="dots"></canvas></div>
+  <div class="wrap footer-legal">
+    <p>© 2026 AIRLOG. Early beta. All numbers on this site are demo data.</p>
+    <p>Garmin, Forerunner, Venu and fenix are trademarks of Garmin Ltd. Strava is a trademark of Strava, Inc. AIRLOG is an independent project and is not affiliated with or endorsed by either company.</p>
+  </div>
+</footer>
+
+<script>
+  import '../scripts/footer-dots.ts';
+</script>

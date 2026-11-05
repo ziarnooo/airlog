@@ -1,0 +1,126 @@
+---
+/**
+ * Telefon z warstw SVG: cień · rama (tytan) · przyciski boczne · ramka ekranu · ekran (HTML w foreignObject)
+ * · wyspa · pasek statusu · szkło z odblaskiem. Zawartość = karta aktywności w stylu feedu (dane demo).
+ */
+import Logo from './Logo.astro';
+interface Props {
+  uid: string;
+}
+const { uid } = Astro.props;
+const id = (n: string) => `${uid}-${n}`;
+const url = (n: string) => `url(#${uid}-${n})`;
+---
+
+<svg class="phone" viewBox="0 0 340 700" width="340" height="700" role="img" aria-label="Phone showing an activity with the AIRLOG block added to its description" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id={id('frame')} x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#d9dde3"></stop>
+      <stop offset=".15" stop-color="#7f8793"></stop>
+      <stop offset=".45" stop-color="#2a2f37"></stop>
+      <stop offset=".6" stop-color="#14171c"></stop>
+      <stop offset=".85" stop-color="#6c7480"></stop>
+      <stop offset="1" stop-color="#c3c9d2"></stop>
+    </linearGradient>
+    <linearGradient id={id('btn')} x1="0" x2="1">
+      <stop offset="0" stop-color="#454c56"></stop>
+      <stop offset=".5" stop-color="#9aa2ae"></stop>
+      <stop offset="1" stop-color="#3a4049"></stop>
+    </linearGradient>
+    <linearGradient id={id('glint')} x1="0" x2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"></stop>
+      <stop offset=".5" stop-color="#fff" stop-opacity=".13"></stop>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"></stop>
+    </linearGradient>
+    <linearGradient id={id('sheen')} x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".1"></stop>
+      <stop offset=".35" stop-color="#fff" stop-opacity="0"></stop>
+    </linearGradient>
+    <filter id={id('blur')} x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="14"></feGaussianBlur></filter>
+    <clipPath id={id('clip')}><rect x="28" y="22" width="284" height="656" rx="40"></rect></clipPath>
+  </defs>
+
+  <g class="ph-shadow"><rect x="30" y="40" width="284" height="640" rx="56" fill="#000" opacity=".65" filter={url('blur')}></rect></g>
+
+  <g class="ph-buttons">
+    <rect x="10" y="132" width="5" height="30" rx="2" fill={url('btn')}></rect>
+    <rect x="10" y="188" width="5" height="54" rx="2" fill={url('btn')}></rect>
+    <rect x="10" y="254" width="5" height="54" rx="2" fill={url('btn')}></rect>
+    <rect class="ph-power" x="325" y="210" width="5" height="82" rx="2" fill={url('btn')}></rect>
+  </g>
+
+  <g class="ph-frame">
+    <rect x="13" y="8" width="314" height="684" rx="58" fill={url('frame')}></rect>
+    <rect x="13.6" y="8.6" width="312.8" height="682.8" rx="57.4" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1.2"></rect>
+    <rect x="19" y="14" width="302" height="672" rx="52" fill="#06080b"></rect>
+    <rect x="19" y="14" width="302" height="672" rx="52" fill="none" stroke="#000" stroke-width="2"></rect>
+  </g>
+
+  <g class="ph-screen" clip-path={url('clip')}>
+    <rect x="28" y="22" width="284" height="656" fill="#0a0d14"></rect>
+    <foreignObject x="28" y="22" width="284" height="656">
+      <div class="ph-ui" xmlns="http://www.w3.org/1999/xhtml">
+        <div class="ph-feed">
+          <div class="ph-appbar"><i class="ph-back"></i><b>Activity</b><i class="ph-more"></i></div>
+          <div class="ph-user">
+            <span class="ph-ava">DR</span>
+            <div><b>Demo Rider</b><span>Today · Jericoacoara (demo)</span></div>
+          </div>
+          <h3 class="ph-title">Afternoon kite session</h3>
+          <div class="ph-map" aria-hidden="true">
+            <svg viewBox="0 0 252 150" width="252" height="150">
+              <rect width="252" height="150" fill="#101620"></rect>
+              <path d="M0 108C40 96 62 112 100 100C150 84 180 112 252 94V150H0Z" fill="#0b1a33"></path>
+              <path d="M0 108C40 96 62 112 100 100C150 84 180 112 252 94" fill="none" stroke="#2d405f" stroke-width="1.2"></path>
+              <path d="M12 118 C40 62 74 126 104 78 S150 130 176 70 S214 118 236 60" fill="none" stroke="#ff7a3d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path>
+              <circle cx="12" cy="118" r="4" fill="#fff"></circle>
+              <circle cx="236" cy="60" r="4" fill="#ff7a3d"></circle>
+            </svg>
+          </div>
+          <div class="ph-stats">
+            <div><span>Distance</span><b>31.2 km</b></div>
+            <div><span>Moving time</span><b>1h 18m</b></div>
+            <div><span>Avg speed</span><b>24.0 km/h</b></div>
+          </div>
+          <div class="ph-desc">
+            <p>Glassy water, steady wind. Good one.</p>
+            <div class="ph-airlog">
+              <p class="pa-head"><Logo size={12} word={false} /> AIRLOG</p>
+              <ul>
+                <li><span>Highest jump</span><b>5.9 m</b></li>
+                <li><span>Jumps</span><b>14</b></li>
+                <li><span>Avg speed (moving)</span><b>24 km/h</b></li>
+              </ul>
+              <p class="pa-link">View session on AIRLOG <i>↗</i></p>
+            </div>
+          </div>
+          <div class="ph-actions"><span>♥ 12</span><span>3 comments</span></div>
+          <ul class="ph-comments">
+            <li><i class="ph-ava ph-ava-s">M</i><p><b>Demo Friend</b>That one looked huge.</p></li>
+            <li><i class="ph-ava ph-ava-s">S</i><p><b>Demo Friend</b>Same spot Saturday?</p></li>
+          </ul>
+        </div>
+      </div>
+    </foreignObject>
+  </g>
+
+  <g class="ph-island"><rect x="130" y="34" width="80" height="24" rx="12" fill="#000"></rect><circle cx="190" cy="46" r="4" fill="#0b1220"></circle><circle cx="190" cy="46" r="1.6" fill="#1d2f57"></circle></g>
+
+  <g class="ph-status" font-family="inherit" font-weight="700" font-size="12.5" fill="#fff">
+    <text x="58" y="51">9:41</text>
+    <g transform="translate(236 40)">
+      <rect x="0" y="7" width="3" height="4" rx=".8"></rect>
+      <rect x="5" y="4.5" width="3" height="6.5" rx=".8"></rect>
+      <rect x="10" y="2" width="3" height="9" rx=".8"></rect>
+      <rect x="15" y="-.5" width="3" height="11.5" rx=".8"></rect>
+      <rect x="25" y="1" width="21" height="10" rx="3" fill="none" stroke="#fff" stroke-opacity=".5"></rect>
+      <rect x="26.8" y="2.8" width="14" height="6.4" rx="1.6"></rect>
+    </g>
+  </g>
+
+  <g class="ph-glass" clip-path={url('clip')}>
+    <rect x="28" y="22" width="284" height="656" fill={url('sheen')}></rect>
+    <g class="ph-glint-par"><g class="ph-glint"><path d="M40 22H120L20 678H-60Z" fill={url('glint')}></path></g></g>
+  </g>
+  <rect x="136" y="662" width="68" height="4.5" rx="2.2" fill="#fff" fill-opacity=".72" class="ph-home"></rect>
+</svg>

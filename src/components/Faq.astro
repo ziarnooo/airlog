@@ -1,0 +1,51 @@
+---
+const faqs = [
+  {
+    q: 'How accurate is the jump height?',
+    a: 'AIRLOG is in early beta and height accuracy is still being validated against tape-measured drops and video. We don’t publish accuracy numbers until they’re earned. Every release is checked against tape and video.',
+  },
+  {
+    q: 'What does AIRLOG record?',
+    a: 'The watch app records your session’s GPS and raw motion sensor data. After the session AIRLOG detects each jump and works out height, airtime and distance.',
+  },
+  {
+    q: 'Which watches are supported?',
+    a: 'The beta runs on the Garmin Forerunner 265 today. Venu 3, Venu 4 and the fenix 7 family are coming to the beta. The beta app is a Connect IQ app called AIRLOG Lab.',
+  },
+  {
+    q: 'How does the Strava connection work?',
+    a: 'Connect Strava is coming soon. Once you connect with one tap, AIRLOG adds a short block to each activity description: your highest jump, jump count, average speed while moving, and a link to your AIRLOG session or profile.',
+  },
+  {
+    q: 'Who can see my sessions?',
+    a: 'Spots are public, exact tracks are private by default, and the start and end of every track are trimmed. The full details are in the privacy policy.',
+  },
+  {
+    q: 'How do I join the beta?',
+    a: 'Email us with the “Join the beta” button and tell us which watch you ride with. We’ll get back to you with the details.',
+  },
+];
+---
+
+<section class="section" id="faq" aria-labelledby="faq-title">
+  <div class="wrap faq-grid">
+    <header class="section-head left" data-reveal>
+      <p class="eyebrow"><span class="pulse"></span>FAQ</p>
+      <h2 id="faq-title">Questions, <span class="grad">answered.</span></h2>
+      <p class="sub">Short answers about an early beta. We’ll add the rest as it ships.</p>
+    </header>
+    <div class="faq-list" data-stagger="1">
+      {
+        faqs.map((f, i) => (
+          <details class="faq-item" name="faq" data-reveal open={i === 0}>
+            <summary>
+              <span>{f.q}</span>
+              <i aria-hidden="true"></i>
+            </summary>
+            <div class="faq-a"><p>{f.a}</p></div>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

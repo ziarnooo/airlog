@@ -1,0 +1,41 @@
+---
+import WatchMini from './WatchMini.astro';
+const watches = [
+  { uid: 'w1', variant: 'fr265', name: 'Forerunner 265', status: 'Beta now', state: 'live', note: 'Round AMOLED, five buttons. The reference watch for AIRLOG today.' },
+  { uid: 'w2', variant: 'venu', name: 'Venu 3', status: 'Coming to beta', state: 'soon', note: 'AMOLED, two buttons.' },
+  { uid: 'w3', variant: 'venu', name: 'Venu 4', status: 'Coming to beta', state: 'soon', note: 'AMOLED, two buttons.' },
+  { uid: 'w4', variant: 'fenix', name: 'fenix 7 family', status: 'Coming to beta', state: 'soon', note: 'Rugged, five buttons.' },
+] as const;
+---
+
+<section class="section" id="watches" aria-labelledby="watches-title">
+  <div class="wrap">
+    <header class="section-head" data-reveal>
+      <p class="eyebrow"><span class="pulse"></span>Supported watches</p>
+      <h2 id="watches-title">Starts on your <span class="grad">Garmin.</span></h2>
+      <p class="sub">The beta runs on the Forerunner 265. More Garmin watches are on the way.</p>
+    </header>
+
+    <div class="bento watch-grid" data-stagger="1">
+      {
+        watches.map((w) => (
+          <article class={`card watch-card is-${w.state}`} data-reveal data-spot>
+            <div class="wc-visual"><WatchMini uid={w.uid} variant={w.variant} /></div>
+            <span class={`badge badge-${w.state}`}>{w.status}</span>
+            <h3>{w.name}</h3>
+            <p>{w.note}</p>
+          </article>
+        ))
+      }
+      <article class="card watch-wide" data-reveal data-spot>
+        <div>
+          <span class="badge badge-live">Beta</span>
+          <h3>Connect IQ app: AIRLOG Lab</h3>
+          <p>AIRLOG runs on the watch as a Connect IQ app. The beta build is called AIRLOG Lab. Join the beta and we’ll send you the details.</p>
+        </div>
+        <a class="btn btn-primary btn-sm" href="mailto:hello@airlog.app?subject=AIRLOG%20beta" data-magnetic>Join the beta</a>
+      </article>
+    </div>
+    <p class="fine center">Garmin, Forerunner, Venu and fenix are trademarks of Garmin Ltd. or its subsidiaries. AIRLOG is an independent project.</p>
+  </div>
+</section>

@@ -1,0 +1,56 @@
+---
+const policy = 'https://ziarnooo.github.io/airlog-privacy/';
+---
+
+<section class="section" id="privacy" aria-labelledby="privacy-title">
+  <div class="wrap">
+    <header class="section-head" data-reveal>
+      <p class="eyebrow"><span class="pulse"></span>Privacy</p>
+      <h2 id="privacy-title">Public spots. <span class="grad">Private tracks.</span></h2>
+      <p class="sub">Share where you ride without sharing exactly where you were.</p>
+    </header>
+
+    <div class="bento privacy-grid" data-stagger="1">
+      <article class="card priv-card" data-reveal data-spot data-run>
+        <svg class="priv-visual pv-spot" viewBox="0 0 280 150" role="img" aria-label="A public spot pin with a pulse">
+          <circle class="pv-ring" cx="140" cy="84" r="14"></circle>
+          <circle class="pv-ring r2" cx="140" cy="84" r="14"></circle>
+          <path d="M140 40c-13 0-23 10-23 22 0 17 23 38 23 38s23-21 23-38c0-12-10-22-23-22z" fill="#5b83ff"></path>
+          <circle cx="140" cy="62" r="8" fill="#04060b"></circle>
+          <rect x="94" y="112" width="92" height="22" rx="11" fill="#fff" fill-opacity=".07" stroke="#fff" stroke-opacity=".14"></rect>
+          <text x="140" y="127" text-anchor="middle" font-size="11" font-weight="600" fill="#cfd6e4">Public spot</text>
+        </svg>
+        <h3>Spots are public</h3>
+        <p>The spots you ride show up on your profile, so other riders can find you.</p>
+      </article>
+
+      <article class="card priv-card" data-reveal data-spot data-run>
+        <svg class="priv-visual pv-track" viewBox="0 0 280 150" role="img" aria-label="A track hidden behind a lock">
+          <path d="M20 112C60 40 90 130 130 70S200 110 258 36" fill="none" stroke="#7aa2ff" stroke-width="3" stroke-linecap="round" opacity=".55" style="filter: blur(5px)"></path>
+          <path d="M20 112C60 40 90 130 130 70S200 110 258 36" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="1.2" stroke-dasharray="3 6"></path>
+          <circle cx="140" cy="76" r="22" fill="#0a0e17" stroke="#fff" stroke-opacity=".18"></circle>
+          <path d="M131 76v-4.5a9 9 0 0118 0V76M128 76h24v16h-24z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round" transform="translate(0 -3)"></path>
+        </svg>
+        <h3>Exact tracks stay private</h3>
+        <p>Your full GPS track is private by default. You decide what to share.</p>
+      </article>
+
+      <article class="card priv-card" data-reveal data-spot data-run>
+        <svg class="priv-visual pv-trim" viewBox="0 0 280 150" role="img" aria-label="A track with its start and end trimmed">
+          <path class="pv-cut" d="M20 112C40 76 54 100 70 78" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 6"></path>
+          <path class="pv-keep" d="M70 78C100 36 130 118 160 66S196 60 212 74" fill="none" stroke="#7aa2ff" stroke-width="3" stroke-linecap="round"></path>
+          <path class="pv-cut" d="M212 74C226 84 240 62 260 40" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2 6"></path>
+          <path d="M70 66v24M212 62v24" stroke="#fff" stroke-opacity=".5" stroke-width="1.2" stroke-dasharray="3 3"></path>
+          <text x="46" y="134" text-anchor="middle" font-size="10" fill="#8f98a8" font-weight="600">trimmed</text>
+          <text x="236" y="134" text-anchor="middle" font-size="10" fill="#8f98a8" font-weight="600">trimmed</text>
+        </svg>
+        <h3>Start and end trimmed</h3>
+        <p>The first and last part of every track are cut, so your home and car stay yours.</p>
+      </article>
+    </div>
+
+    <p class="priv-link" data-reveal>
+      <a class="text-link" href={policy} target="_blank" rel="noopener">Read the privacy policy <span aria-hidden="true">↗</span></a>
+    </p>
+  </div>
+</section>

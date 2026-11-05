@@ -1,0 +1,284 @@
+---
+/**
+ * Garmin Forerunner 265-like zegarek – warstwy SVG animowane osobno:
+ * poświata ekranu · cień · paski (góra/dół) · przyciski ×5 · korpus · bezel (metal + opisy)
+ * · szkło-obramowanie · ekran AMOLED (zawartość) · pasek statusu · szkło (odbicia + glint).
+ */
+interface Props {
+  uid: string;
+  scene: 'jump' | 'story';
+  label?: string;
+  class?: string;
+}
+const { uid, scene, label = 'Garmin watch showing the AIRLOG app', class: cls = '' } = Astro.props;
+const id = (n: string) => `${uid}-${n}`;
+const url = (n: string) => `url(#${uid}-${n})`;
+const buttons = [
+  { a: -62, name: 'light' },
+  { a: -90, name: 'up' },
+  { a: -118, name: 'down' },
+  { a: 62, name: 'start' },
+  { a: 118, name: 'back' },
+];
+const marks = Array.from({ length: 60 }, (_, i) => i);
+---
+
+<svg
+  class={`watch ${cls}`}
+  data-scene={scene}
+  viewBox="0 0 400 640"
+  width="400"
+  height="640"
+  role="img"
+  aria-label={label}
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <defs>
+    <linearGradient id={id('strap')} x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#0c0e11"></stop>
+      <stop offset=".16" stop-color="#1d2126"></stop>
+      <stop offset=".5" stop-color="#2d333b"></stop>
+      <stop offset=".84" stop-color="#1b1f24"></stop>
+      <stop offset="1" stop-color="#0b0d10"></stop>
+    </linearGradient>
+    <linearGradient id={id('strapShade')} x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#000" stop-opacity="0"></stop>
+      <stop offset=".62" stop-color="#000" stop-opacity=".1"></stop>
+      <stop offset="1" stop-color="#000" stop-opacity=".78"></stop>
+    </linearGradient>
+    <pattern id={id('weave')} width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(32)">
+      <rect width="9" height="9" fill="none"></rect>
+      <path d="M0 0.5H9" stroke="#fff" stroke-opacity=".055" stroke-width="1"></path>
+      <path d="M0 5H9" stroke="#000" stroke-opacity=".25" stroke-width="1.4"></path>
+    </pattern>
+    <linearGradient id={id('metal')} x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f3f6fa"></stop>
+      <stop offset=".18" stop-color="#9aa3af"></stop>
+      <stop offset=".4" stop-color="#434a54"></stop>
+      <stop offset=".52" stop-color="#1b1f25"></stop>
+      <stop offset=".72" stop-color="#6d7581"></stop>
+      <stop offset=".88" stop-color="#c9d0d9"></stop>
+      <stop offset="1" stop-color="#59606b"></stop>
+    </linearGradient>
+    <linearGradient id={id('btn')} x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#2b3037"></stop>
+      <stop offset=".35" stop-color="#9ba3ae"></stop>
+      <stop offset=".6" stop-color="#4a515b"></stop>
+      <stop offset="1" stop-color="#1a1d22"></stop>
+    </linearGradient>
+    <radialGradient id={id('case')} cx=".35" cy=".28" r=".95">
+      <stop offset="0" stop-color="#454c56"></stop>
+      <stop offset=".45" stop-color="#1c2025"></stop>
+      <stop offset="1" stop-color="#090b0e"></stop>
+    </radialGradient>
+    <linearGradient id={id('rim')} x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".55"></stop>
+      <stop offset=".35" stop-color="#fff" stop-opacity=".04"></stop>
+      <stop offset=".7" stop-color="#fff" stop-opacity=".02"></stop>
+      <stop offset="1" stop-color="#fff" stop-opacity=".3"></stop>
+    </linearGradient>
+    <radialGradient id={id('screen')} cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#05070b"></stop>
+      <stop offset=".9" stop-color="#000"></stop>
+      <stop offset="1" stop-color="#0a1020"></stop>
+    </radialGradient>
+    <linearGradient id={id('glint')} x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"></stop>
+      <stop offset=".5" stop-color="#fff" stop-opacity=".2"></stop>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"></stop>
+    </linearGradient>
+    <radialGradient id={id('sheen')} cx=".3" cy=".18" r=".8">
+      <stop offset="0" stop-color="#fff" stop-opacity=".2"></stop>
+      <stop offset=".5" stop-color="#fff" stop-opacity=".03"></stop>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"></stop>
+    </radialGradient>
+    <radialGradient id={id('bloom')} cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#3f6bff" stop-opacity=".34"></stop>
+      <stop offset=".55" stop-color="#3f6bff" stop-opacity=".1"></stop>
+      <stop offset="1" stop-color="#3f6bff" stop-opacity="0"></stop>
+    </radialGradient>
+    <filter id={id('blur')} x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="9"></feGaussianBlur></filter>
+    <filter id={id('soft')} x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="1.6"></feGaussianBlur></filter>
+    <clipPath id={id('clipScreen')}><circle cx="200" cy="320" r="98"></circle></clipPath>
+    <clipPath id={id('clipGlass')}><circle cx="200" cy="320" r="105"></circle></clipPath>
+    <g id={id('strapShape')}>
+      <path d="M136 -4H264L273 150Q274 196 280 236H120Q126 196 127 150Z" fill={url('strap')}></path>
+      <path d="M136 -4H264L273 150Q274 196 280 236H120Q126 196 127 150Z" fill={url('weave')}></path>
+      <rect x="170" y="22" width="60" height="9" rx="4.5" fill="#05070a"></rect>
+      <rect x="170" y="42" width="60" height="9" rx="4.5" fill="#05070a"></rect>
+      <rect x="171" y="22.6" width="58" height="3" rx="1.5" fill="#fff" fill-opacity=".05"></rect>
+      <path d="M137 0L128 150Q127 196 121 236" fill="none" stroke="#fff" stroke-opacity=".08" stroke-width="1.2"></path>
+      <path d="M263 0L272 150Q273 196 279 236" fill="none" stroke="#000" stroke-opacity=".5" stroke-width="1.6"></path>
+      <path d="M120 236H280V150H120Z" fill={url('strapShade')}></path>
+    </g>
+  </defs>
+
+  <g class="w-bloom"><circle cx="200" cy="320" r="250" fill={url('bloom')}></circle></g>
+
+  <g class="w-shadow">
+    <ellipse cx="200" cy="334" rx="168" ry="170" fill="#000" opacity=".6" filter={url('blur')}></ellipse>
+  </g>
+
+  <g class="w-strap w-strap-top"><use href={`#${id('strapShape')}`}></use></g>
+  <g class="w-strap w-strap-bottom"><use href={`#${id('strapShape')}`} transform="translate(0 640) scale(1 -1)"></use></g>
+
+  <g class="w-buttons">
+    {
+      buttons.map((b) => (
+        <g transform={`rotate(${b.a} 200 320)`}>
+          <g class={`w-btn w-btn-${b.name}`}>
+            <rect x="191" y="159" width="18" height="26" rx="4.5" fill={url('btn')}></rect>
+            <rect x="191" y="159" width="18" height="26" rx="4.5" fill="none" stroke="#000" stroke-opacity=".5"></rect>
+            <path d="M194 165H206M194 169H206M194 173H206" stroke="#000" stroke-opacity=".38" stroke-width="1"></path>
+            <rect x="193" y="159.6" width="14" height="2" rx="1" fill="#fff" fill-opacity=".45"></rect>
+          </g>
+        </g>
+      ))
+    }
+  </g>
+
+  <g class="w-case">
+    <path d="M124 186C121 158 127 144 146 139H254C273 144 279 158 276 186Z" fill="#0c0e12"></path>
+    <path d="M124 454C121 482 127 496 146 501H254C273 496 279 482 276 454Z" fill="#0c0e12"></path>
+    <path d="M125 184C122 158 128 145 147 140H253C272 145 278 158 275 184" fill="none" stroke={url('rim')} stroke-width="1.2"></path>
+    <path d="M125 456C122 482 128 495 147 500H253C272 495 278 482 275 456" fill="none" stroke={url('rim')} stroke-width="1.2" opacity=".5"></path>
+    <circle cx="200" cy="320" r="150" fill={url('case')}></circle>
+    <circle cx="200" cy="320" r="149" fill="none" stroke={url('rim')} stroke-width="2"></circle>
+    <circle cx="200" cy="320" r="141" fill="none" stroke="#000" stroke-opacity=".6" stroke-width="1.4"></circle>
+  </g>
+
+  <g class="w-bezel">
+    <circle cx="200" cy="320" r="120" fill="none" stroke={url('metal')} stroke-width="30"></circle>
+    <circle cx="200" cy="320" r="134.5" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="1.1"></circle>
+    <circle cx="200" cy="320" r="105.5" fill="none" stroke="#000" stroke-opacity=".7" stroke-width="1.6"></circle>
+    <g class="w-bezel-spec" filter={url('soft')}>
+      <circle cx="200" cy="320" r="127" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="3" stroke-dasharray="150 650" transform="rotate(-150 200 320)"></circle>
+      <circle cx="200" cy="320" r="113" fill="none" stroke="#fff" stroke-opacity=".34" stroke-width="2" stroke-dasharray="90 620" transform="rotate(25 200 320)"></circle>
+    </g>
+    <g class="w-ticks" stroke="#0d1014" stroke-opacity=".5">
+      {
+        marks.map((i) => (
+          <path d={`M200 ${320 - 132}v${i % 5 === 0 ? 4 : 2}`} stroke-width={i % 5 === 0 ? 1.4 : 0.8} transform={`rotate(${i * 6} 200 320)`}></path>
+        ))
+      }
+    </g>
+    <g class="w-bezel-text" font-size="7.5" font-weight="700" letter-spacing="1" fill="#0b0e12" fill-opacity=".78" text-anchor="middle">
+      <text transform="rotate(-62 200 320)" x="200" y="205">LIGHT</text>
+      <text transform="rotate(-90 200 320)" x="200" y="205">UP</text>
+      <text transform="rotate(-118 200 320)" x="200" y="205">DOWN</text>
+      <text transform="rotate(62 200 320)" x="200" y="205">START</text>
+      <text transform="rotate(118 200 320)" x="200" y="205">BACK</text>
+    </g>
+  </g>
+
+  <g class="w-glassring">
+    <circle cx="200" cy="320" r="105" fill="#030406"></circle>
+    <text x="200" y="437" text-anchor="middle" font-size="8.5" font-weight="800" letter-spacing="1.6" fill="#14181e" fill-opacity=".85" class="w-brand">GARMIN</text>
+  </g>
+
+  <g class="w-screen" clip-path={url('clipScreen')}>
+    <circle cx="200" cy="320" r="98" fill={url('screen')}></circle>
+    <g class="w-content" transform="translate(100 220)">
+      {
+        scene === 'jump' ? (
+          <g class="sc sc-jump is-on">
+            <text class="wl" x="100" y="29" text-anchor="middle">HIGHEST</text>
+            <text class="wv wv-hero" x="100" y="63" text-anchor="middle">
+              <tspan data-w="highest">0.0</tspan>
+              <tspan class="wu" dx="2" font-size="12">m</tspan>
+            </text>
+            <path class="wgrid" d="M14 77H186M14 131H186M100 77V183" />
+            <text class="wl" x="56" y="91" text-anchor="middle">LAST</text>
+            <text class="wv wv-m" x="56" y="113" text-anchor="middle">
+              <tspan data-w="last">4.4</tspan>
+              <tspan class="wu" dx="1" font-size="9">m</tspan>
+            </text>
+            <text class="wl" x="144" y="91" text-anchor="middle">SPEED</text>
+            <text class="wv wv-m" x="144" y="113" text-anchor="middle">
+              <tspan data-w="speed">0.0</tspan>
+              <tspan class="wu" dx="1" font-size="8">km/h</tspan>
+            </text>
+            <text class="wl" x="62" y="143" text-anchor="middle">TIME</text>
+            <text class="wv wv-s" x="62" y="164" text-anchor="middle">42:18</text>
+            <text class="wl" x="138" y="143" text-anchor="middle">DISTANCE</text>
+            <text class="wv wv-s" x="138" y="164" text-anchor="middle">
+              12.84<tspan class="wu" dx="1" font-size="8">km</tspan>
+            </text>
+          </g>
+        ) : (
+          <>
+            <g class="sc sc-start is-on">
+              <path d="M100 38L130 90H70Z" fill="#2e5cf0"></path>
+              <path d="M100 52L84 79H94V86H106V79H116Z" fill="#000"></path>
+              <text x="100" y="124" text-anchor="middle" class="wbrand">AIRLOG</text>
+              <text x="100" y="156" text-anchor="middle" class="wstart">START TO RIDE</text>
+            </g>
+            <g class="sc sc-gps">
+              <text class="wl wl-lg" x="100" y="38" text-anchor="middle">SEARCHING GPS</text>
+              <text class="wv wv-time" x="100" y="62" text-anchor="middle" data-st="time">00:08</text>
+              <path class="wgrid" d="M14 76H186M14 134H186M100 76V186" />
+              <text class="wl" x="56" y="93" text-anchor="middle">DISTANCE</text>
+              <text class="wv wv-m" x="56" y="113" text-anchor="middle">0.00<tspan class="wu" dx="1" font-size="8">km</tspan></text>
+              <text class="wl" x="144" y="93" text-anchor="middle">SPEED</text>
+              <text class="wv wv-m" x="144" y="113" text-anchor="middle">0.0<tspan class="wu" dx="1" font-size="8">km/h</tspan></text>
+              <text class="wl" x="62" y="149" text-anchor="middle">LAST</text>
+              <text class="wv wv-s dim" x="62" y="168" text-anchor="middle">--</text>
+              <text class="wl" x="138" y="149" text-anchor="middle">HIGHEST</text>
+              <text class="wv wv-s green" x="138" y="168" text-anchor="middle">--</text>
+            </g>
+            <g class="sc sc-rec">
+              <text class="wl wl-lg" x="100" y="38" text-anchor="middle">TIME</text>
+              <text class="wv wv-time" x="100" y="62" text-anchor="middle" data-st="time">12:41</text>
+              <path class="wgrid" d="M14 76H186M14 134H186M100 76V186" />
+              <text class="wl" x="56" y="93" text-anchor="middle">DISTANCE</text>
+              <text class="wv wv-m" x="56" y="113" text-anchor="middle"><tspan data-st="dist">3.12</tspan><tspan class="wu" dx="1" font-size="8">km</tspan></text>
+              <text class="wl" x="144" y="93" text-anchor="middle">SPEED</text>
+              <text class="wv wv-m" x="144" y="113" text-anchor="middle"><tspan data-st="speed">24.6</tspan><tspan class="wu" dx="1" font-size="8">km/h</tspan></text>
+              <text class="wl" x="62" y="149" text-anchor="middle">LAST</text>
+              <text class="wv wv-s" x="62" y="168" text-anchor="middle"><tspan data-st="last">--</tspan><tspan class="wu" dx="1" font-size="8">m</tspan></text>
+              <text class="wl" x="138" y="149" text-anchor="middle">HIGHEST</text>
+              <text class="wv wv-s green" x="138" y="168" text-anchor="middle"><tspan data-st="highest">--</tspan><tspan class="wu" dx="1" font-size="8">m</tspan></text>
+            </g>
+            <g class="sc sc-saved">
+              <text class="wsaved" x="100" y="49" text-anchor="middle">SESSION</text>
+              <text class="wsaved" x="100" y="72" text-anchor="middle">SAVED</text>
+              <text class="wrow" x="26" y="106">Time on water</text>
+              <text class="wrow wrow-v" x="176" y="106" text-anchor="end">42:18</text>
+              <path class="wgrid" d="M26 114H174M26 140H174" />
+              <text class="wrow" x="26" y="132">Total jumps</text>
+              <text class="wrow wrow-v" x="174" y="132" text-anchor="end">14</text>
+              <text class="wrow" x="26" y="158">Highest jump</text>
+              <text class="wrow wrow-v green" x="174" y="158" text-anchor="end">5.9 m</text>
+            </g>
+          </>
+        )
+      }
+    </g>
+    <circle cx="200" cy="320" r="97.5" fill="none" stroke="#1b2a55" stroke-opacity=".7"></circle>
+  </g>
+
+  <g class="w-status" transform="translate(100 220)">
+    <g class="w-gps" transform="translate(70 5)">
+      <rect x="0" y="6" width="3" height="4" rx=".8" fill="#7fe8b4"></rect>
+      <rect x="5" y="3" width="3" height="7" rx=".8" fill="#7fe8b4"></rect>
+      <rect x="10" y="0" width="3" height="10" rx=".8" fill="#7fe8b4"></rect>
+    </g>
+    <g class="w-batt" transform="translate(112 5)">
+      <rect x="0" y="1" width="16" height="8" rx="2" fill="none" stroke="#c7ccd4" stroke-opacity=".8"></rect>
+      <rect x="1.8" y="2.8" width="10" height="4.4" rx="1" fill="#7fe8b4"></rect>
+      <rect x="16.8" y="3.4" width="1.6" height="3.2" rx=".6" fill="#c7ccd4" fill-opacity=".8"></rect>
+    </g>
+  </g>
+
+  <g class="w-glass" clip-path={url('clipGlass')}>
+    <circle cx="200" cy="320" r="105" fill={url('sheen')}></circle>
+    <g class="w-glint-par">
+      <g class="w-glint">
+        <path d="M150 190L196 190L130 460L84 460Z" fill={url('glint')}></path>
+        <path d="M206 190L216 190L150 460L140 460Z" fill={url('glint')} opacity=".7"></path>
+      </g>
+    </g>
+    <path d="M118 262Q200 205 282 262Q200 232 118 262Z" fill="#fff" fill-opacity=".05"></path>
+  </g>
+  <circle class="w-glass-edge" cx="200" cy="320" r="105" fill="none" stroke="#fff" stroke-opacity=".1"></circle>
+</svg>
